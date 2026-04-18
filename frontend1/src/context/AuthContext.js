@@ -1,11 +1,26 @@
-import React, { createContext } from "react";
+
+import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+// Backend API base URL
+const API = process.env.REACT_APP_API_URL
+  ? `${process.env.REACT_APP_API_URL}/auth`
+  : "http://localhost:5000/api/auth";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
 
-  const API = "http://localhost:5000/api/auth";
+  
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // ✅ Check token on page load
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   // ✅ REGISTER
   const register = async (name, email, password) => {
@@ -17,11 +32,11 @@ const AuthProvider = ({ children }) => {
       });
 
       alert(res.data.message);
-      return true; // ✅ IMPORTANT
+      return true;
 
     } catch (err) {
       alert(err.response?.data?.message || "Register failed");
-      return false; // ✅ IMPORTANT
+      return false;
     }
   };
 
@@ -30,10 +45,15 @@ const AuthProvider = ({ children }) => {
     try {
       const res = await axios.post(`${API}/login`, { email, password });
 
-      localStorage.setItem("token", res.data.token);
-      alert("Login successful");
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user)); // 🔥 store user
+        setIsAuthenticated(true); // 🔥 update state
+        alert("Login successful");
+        return true;
+      }
 
-      return true; // ✅ IMPORTANT
+      return false;
 
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
@@ -41,13 +61,22 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // ✅ LOGOUT (🔥 NEW)
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setIsAuthenticated(false);
+  };
+
   // ✅ FORGOT PASSWORD
   const forgotPassword = async (email) => {
     try {
       const res = await axios.post(`${API}/forgot-password`, { email });
       alert(res.data.message);
+      return true;
     } catch (err) {
       alert(err.response?.data?.message);
+      return false;
     }
   };
 
@@ -58,14 +87,23 @@ const AuthProvider = ({ children }) => {
         password
       });
       alert(res.data.message);
+      return true;
     } catch (err) {
       alert(err.response?.data?.message);
+      return false;
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ register, login, forgotPassword, resetPassword }}
+      value={{
+        register,
+        login,
+        logout,          // 🔥 expose logout
+        isAuthenticated, // 🔥 expose state
+        forgotPassword,
+        resetPassword
+      }}
     >
       {children}
     </AuthContext.Provider>
