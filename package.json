@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "express-rate-limit": "^8.3.2",
+    "express-validator": "^7.3.2",
+    "formik": "^2.4.9",
+    "helmet": "^8.1.0",
+    "winston": "^3.19.0",
+    "yup": "^1.7.1"
+  }
+}
