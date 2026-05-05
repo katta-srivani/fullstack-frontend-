@@ -111,9 +111,10 @@ const LandingPage = () => {
           <a href="#deals">Deals</a>
           <a href="#plans">Plans</a>
           <a href="#blog">Blog</a>
+          <a href="/login">Login</a>
         </nav>
-        <a className="header-action" href="#subscribe">
-          Book now
+        <a className="header-action" href="/register">
+          Get started
         </a>
       </header>
 
@@ -130,8 +131,8 @@ const LandingPage = () => {
             <a className="primary-button" href="#deals">
               Explore deals
             </a>
-            <a className="ghost-button" href="#plans">
-              View plans
+            <a className="ghost-button" href="/login">
+              Sign in
             </a>
           </div>
         </div>
