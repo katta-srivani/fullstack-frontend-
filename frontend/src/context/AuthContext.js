@@ -9,8 +9,19 @@ const getApiBaseUrl = () => {
 
 const API_BASE_URL = getApiBaseUrl();
 const API = `${API_BASE_URL}/auth`;
+const apiClient = axios.create({
+  timeout: 15000
+});
 
 const getApiError = (err, fallback) => {
+  if (err.code === "ECONNABORTED") {
+    return "The server is taking too long to respond. Please try again in a few seconds.";
+  }
+
+  if (!err.response) {
+    return "Unable to reach the server. Please try again shortly.";
+  }
+
   const data = err.response?.data;
 
   if (Array.isArray(data?.errors) && data.errors.length > 0) {
@@ -27,11 +38,12 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     setIsAuthenticated(Boolean(localStorage.getItem("token")));
+    apiClient.get(`${API_BASE_URL}/health`).catch(() => {});
   }, []);
 
   const register = async (name, email, password) => {
     try {
-      const res = await axios.post(`${API}/register`, {
+      const res = await apiClient.post(`${API}/register`, {
         name,
         email: email.trim().toLowerCase(),
         password: password.trim()
@@ -44,7 +56,7 @@ const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await axios.post(`${API}/login`, {
+      const res = await apiClient.post(`${API}/login`, {
         email: email.trim().toLowerCase(),
         password: password.trim()
       });
@@ -66,7 +78,7 @@ const AuthProvider = ({ children }) => {
 
   const forgotPassword = async (email) => {
     try {
-      const res = await axios.post(`${API}/forgot-password`, {
+      const res = await apiClient.post(`${API}/forgot-password`, {
         email: email.trim().toLowerCase()
       });
       return { success: true, message: res.data.message };
@@ -77,7 +89,7 @@ const AuthProvider = ({ children }) => {
 
   const resetPassword = async (token, password) => {
     try {
-      const res = await axios.post(`${API}/reset-password/${token}`, {
+      const res = await apiClient.post(`${API}/reset-password/${token}`, {
         password: password.trim()
       });
       return { success: true, message: res.data.message };
