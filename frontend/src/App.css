@@ -1,15 +1,16 @@
 :root {
-  --app-bg: #f4f6f8;
+  --app-bg: #eef3f7;
   --app-surface: #ffffff;
-  --app-ink: #182230;
-  --app-muted: #667085;
-  --app-line: #d9e0e8;
-  --app-primary: #1d4ed8;
-  --app-primary-dark: #153e9f;
-  --app-success: #0f766e;
-  --app-info: #0369a1;
-  --app-danger: #b42318;
-  --app-shadow: 0 22px 60px rgba(16, 24, 40, 0.12);
+  --app-ink: #172033;
+  --app-muted: #68758a;
+  --app-line: #d8e1ea;
+  --app-primary: #2563eb;
+  --app-primary-dark: #1d4ed8;
+  --app-success: #0d9488;
+  --app-info: #0e7490;
+  --app-danger: #c2410c;
+  --app-shadow: 0 24px 70px rgba(29, 41, 57, 0.14);
+  --app-soft-shadow: 0 14px 36px rgba(29, 41, 57, 0.08);
 }
 
 * {
@@ -19,9 +20,12 @@
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--app-bg);
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.13), transparent 31rem),
+    linear-gradient(135deg, #eef3f7 0%, #f8fafc 48%, #edf7f5 100%);
   color: var(--app-ink);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -31,8 +35,10 @@ a {
 .auth-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(21rem, 0.82fr) minmax(0, 1.18fr);
-  background: var(--app-bg);
+  grid-template-columns: minmax(21rem, 0.88fr) minmax(0, 1.12fr);
+  background:
+    linear-gradient(90deg, rgba(10, 18, 32, 0.02), transparent 45%),
+    var(--app-bg);
 }
 
 .auth-panel {
@@ -42,10 +48,22 @@ a {
   padding: clamp(2rem, 5vw, 4.5rem);
   color: #fff;
   background:
-    linear-gradient(180deg, rgba(8, 16, 31, 0.18) 0%, rgba(8, 16, 31, 0.88) 100%),
+    linear-gradient(180deg, rgba(10, 18, 32, 0.04) 0%, rgba(10, 18, 32, 0.9) 100%),
     url("https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=82");
   background-size: cover;
   background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-panel::after {
+  content: "";
+  position: absolute;
+  inset: auto clamp(2rem, 5vw, 4.5rem) clamp(2rem, 5vw, 4.5rem) auto;
+  width: 10rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .auth-shell-success .auth-panel {
@@ -66,6 +84,8 @@ a {
 
 .auth-panel-content {
   max-width: 33rem;
+  position: relative;
+  z-index: 1;
 }
 
 .brand-lockup {
@@ -79,8 +99,8 @@ a {
 
 .brand-mark,
 .auth-mark {
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.8rem;
+  height: 2.8rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -91,13 +111,14 @@ a {
 .brand-mark {
   background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
 .auth-panel h1 {
-  max-width: 11ch;
+  max-width: 12ch;
   margin: 0 0 1rem;
   font-size: clamp(2.4rem, 5vw, 4.6rem);
-  line-height: 0.98;
+  line-height: 1;
   font-weight: 800;
 }
 
@@ -121,8 +142,18 @@ a {
   width: min(100%, 28.5rem);
   border: 1px solid var(--app-line);
   border-radius: 8px;
-  background: var(--app-surface);
+  background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--app-shadow);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+  position: relative;
+}
+
+.auth-card::before {
+  content: "";
+  display: block;
+  height: 0.35rem;
+  background: linear-gradient(90deg, var(--app-primary), #14b8a6, #f59e0b);
 }
 
 .auth-card .card-body {
@@ -151,7 +182,10 @@ a {
 .auth-mark {
   margin-bottom: 1.15rem;
   color: #fff;
-  background: var(--app-primary);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent),
+    var(--app-primary);
+  box-shadow: 0 12px 22px rgba(37, 99, 235, 0.22);
 }
 
 .auth-shell-success .auth-mark {
@@ -164,7 +198,7 @@ a {
 
 .auth-card h2 {
   margin-bottom: 0.5rem;
-  font-size: 1.65rem;
+  font-size: 1.75rem;
   font-weight: 800;
 }
 
@@ -189,7 +223,8 @@ a {
   min-height: 3.1rem;
   border-color: var(--app-line);
   color: var(--app-ink);
-  background: #fbfcfe;
+  background: #f8fafc;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
 .form-floating > .form-control {
@@ -210,16 +245,23 @@ a {
 .form-control:focus {
   border-color: rgba(29, 78, 216, 0.62);
   box-shadow: 0 0 0 0.22rem rgba(29, 78, 216, 0.12);
+  background: #fff;
 }
 
 .btn {
   min-height: 3rem;
   font-weight: 700;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
 }
 
 .btn-primary {
   border-color: var(--app-primary);
-  background: var(--app-primary);
+  background: linear-gradient(135deg, var(--app-primary), #1d4ed8);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
 }
 
 .btn-primary:hover {
@@ -229,18 +271,20 @@ a {
 
 .btn-success {
   border-color: var(--app-success);
-  background: var(--app-success);
+  background: linear-gradient(135deg, var(--app-success), #0f766e);
+  box-shadow: 0 12px 24px rgba(13, 148, 136, 0.18);
 }
 
 .btn-info {
   border-color: var(--app-info);
-  background: var(--app-info);
+  background: linear-gradient(135deg, var(--app-info), #155e75);
+  box-shadow: 0 12px 24px rgba(14, 116, 144, 0.18);
 }
 
 .btn-outline-secondary {
   border-color: var(--app-line);
   color: #344054;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.86);
 }
 
 .alert {
@@ -261,12 +305,15 @@ a {
 
 .dashboard-shell {
   min-height: 100vh;
-  background: #f4f6f8;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30rem),
+    radial-gradient(circle at bottom right, rgba(20, 184, 166, 0.1), transparent 28rem),
+    #f6f8fb;
 }
 
 .dashboard-nav {
   border-bottom: 1px solid var(--app-line);
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(12px);
 }
 
@@ -279,7 +326,14 @@ a {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1.5rem;
   align-items: end;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(216, 225, 234, 0.9);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.68)),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.08), rgba(20, 184, 166, 0.08));
+  box-shadow: var(--app-soft-shadow);
 }
 
 .dashboard-hero h1 {
@@ -297,8 +351,9 @@ a {
 .dashboard-card {
   border: 1px solid var(--app-line);
   border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 12px 36px rgba(16, 24, 40, 0.07);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--app-soft-shadow);
+  overflow: hidden;
 }
 
 .status-row {
@@ -319,7 +374,7 @@ a {
   align-items: center;
   min-height: 1.8rem;
   padding: 0 0.7rem;
-  border-radius: 999px;
+  border-radius: 8px;
   color: #067647;
   background: #ecfdf3;
   font-size: 0.82rem;
@@ -330,16 +385,18 @@ a {
 .metric-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
+  gap: 0.75rem;
   overflow: hidden;
-  border: 1px solid var(--app-line);
-  border-radius: 8px;
-  background: var(--app-line);
+  border-radius: 0;
+  background: transparent;
 }
 
 .metric-item {
   padding: 1rem;
-  background: #fff;
+  border: 1px solid var(--app-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--app-soft-shadow);
 }
 
 .metric-item strong {
