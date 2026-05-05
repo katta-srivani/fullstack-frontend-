@@ -12,6 +12,8 @@ REACT_APP_API_URL=https://your-backend-live-url.com/api
 
 Do not use a local machine URL for deployment. If `REACT_APP_API_URL` is not set, the app uses `/api`, which works only when the frontend and backend are served from the same domain.
 
+For separate frontend and backend deployments, the live frontend must be built with the live backend API URL above.
+
 ## Routes
 
 ```text
