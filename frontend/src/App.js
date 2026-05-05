@@ -119,12 +119,12 @@ const LandingPage = () => {
 
       <section className="hero" id="top">
         <div className="hero-content">
-          <p className="eyebrow">Travel agency landing page</p>
+          <p className="eyebrow">Best destinations around the world</p>
           <h1>
-            Get started your exciting <span>journey</span> with us.
+            Travel, enjoy and live a new <span>adventure</span>.
           </h1>
           <p>
-            Discover beautiful places, private routes, and vacation plans made for the way you actually like to travel.
+            Discover carefully planned trips, trusted stays, and unforgettable local experiences in one simple place.
           </p>
           <div className="hero-actions">
             <a className="primary-button" href="#deals">
@@ -133,6 +133,16 @@ const LandingPage = () => {
             <a className="ghost-button" href="#plans">
               View plans
             </a>
+          </div>
+        </div>
+        <div className="hero-visual" aria-hidden="true">
+          <img
+            src="https://images.unsplash.com/photo-1500835556837-99ac94a94552?auto=format&fit=crop&w=1200&q=86"
+            alt=""
+          />
+          <div className="hero-badge">
+            <strong>27k+</strong>
+            <span>Happy travelers</span>
           </div>
         </div>
       </section>
