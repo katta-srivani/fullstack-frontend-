@@ -2,7 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const getApiBaseUrl = () => {
-  const configuredUrl = process.env.REACT_APP_API_URL || "/api";
+  const configuredUrl =
+    process.env.REACT_APP_API_URL || "https://fullstack-backend-otg6.onrender.com/api";
   return configuredUrl.replace(/\/+$/, "");
 };
 
