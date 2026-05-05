@@ -1,9 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
-const API = process.env.REACT_APP_API_URL
-  ? `${process.env.REACT_APP_API_URL}/auth`
-  : "http://localhost:5000/api/auth";
+const API_BASE_URL = (process.env.REACT_APP_API_URL || "/api").replace(/\/$/, "");
+const API = `${API_BASE_URL}/auth`;
 
 const getApiError = (err, fallback) => {
   const data = err.response?.data;
