@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { AuthContext } from "./context/AuthContext";
 import Dashboard from "./pages/Dashboard";
@@ -15,7 +15,7 @@ const PrivateRoute = ({ children }) => {
 
 const App = () => {
   return (
-    <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
@@ -32,7 +32,7 @@ const App = () => {
         />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

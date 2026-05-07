@@ -3,7 +3,10 @@ import axios from "axios";
 
 const getApiBaseUrl = () => {
   const configuredUrl =
-    process.env.REACT_APP_API_URL || "https://fullstack-backend-otg6.onrender.com/api";
+    process.env.REACT_APP_API_URL ||
+    (process.env.NODE_ENV === "development"
+      ? "http://localhost:5000/api"
+      : "https://fullstack-backend-otg6.onrender.com/api");
   return configuredUrl.replace(/\/+$/, "");
 };
 
@@ -87,6 +90,15 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const verifyResetToken = async (token) => {
+    try {
+      const res = await apiClient.get(`${API}/reset-password/${token}`);
+      return { success: true, message: res.data.message };
+    } catch (err) {
+      return { success: false, message: getApiError(err, "Invalid or expired reset link") };
+    }
+  };
+
   const resetPassword = async (token, password) => {
     try {
       const res = await apiClient.post(`${API}/reset-password/${token}`, {
@@ -106,7 +118,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, register, login, forgotPassword, resetPassword, logout }}
+      value={{ isAuthenticated, register, login, forgotPassword, verifyResetToken, resetPassword, logout }}
     >
       {children}
     </AuthContext.Provider>
