@@ -1,6 +1,10 @@
 const nodemailer = require("nodemailer");
 
 const sendEmail = async (to, subject, html) => {
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    throw new Error("SMTP_USER or SMTP_PASS missing");
+  }
+
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -9,8 +13,10 @@ const sendEmail = async (to, subject, html) => {
     }
   });
 
+  await transporter.verify();
+
   return transporter.sendMail({
-    from: `"${process.env.MAIL_FROM_NAME || "Password Reset App"}" <${process.env.MAIL_FROM_EMAIL || process.env.SMTP_USER}>`,
+    from: `"${process.env.MAIL_FROM_NAME || "Password Reset App"}" <${process.env.SMTP_USER}>`,
     to,
     subject,
     html
