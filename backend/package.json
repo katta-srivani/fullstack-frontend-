@@ -1,7 +1,7 @@
 {
   "name": "fullstack-auth-backend",
   "version": "1.0.0",
-  "description": "Authentication system using Node.js, Express, MongoDB, JWT, and Brevo Email API",
+  "description": "Authentication system using Node.js, Express, MongoDB, JWT, and Nodemailer",
   "main": "app.js",
   "type": "commonjs",
   "scripts": {

@@ -6,7 +6,7 @@ This folder contains the Node.js, Express, MongoDB, and JWT backend for the auth
 
 - Registers users with name, email, and password.
 - Stores passwords securely using bcrypt hashing.
-- Logs users in and returns a JWT token.
+- Logs users in and returns a JWT token plus safe user profile data.
 - Sends password reset emails through Nodemailer.
 - Validates reset tokens before allowing password changes.
 - Uses MongoDB Atlas through Mongoose.
@@ -19,6 +19,7 @@ This folder contains the Node.js, Express, MongoDB, and JWT backend for the auth
 - Added a `/api` database availability guard that returns `503` if MongoDB disconnects.
 - Improved controller error handling so Mongo network errors do not print huge stack traces to users.
 - Added request validation using `express-validator`.
+- Returns the logged-in user's `id`, `name`, and `email` for the frontend auth context.
 - Normalized emails to lowercase before registration, login, and password recovery.
 - Improved auth responses for duplicate users, invalid credentials, and validation errors.
 
@@ -43,14 +44,20 @@ Create a `.env` file in this folder:
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-EMAIL_USER=your_email_address
-EMAIL_PASS=your_email_app_password
-CLIENT_URL=https://your-frontend-live-url.com
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+MAIL_FROM_EMAIL=your_email@gmail.com
+MAIL_FROM_NAME=Password Reset App
+CLIENT_URL=http://localhost:5173
 ```
 
 `CLIENT_URL` is used when generating password reset links. CORS accepts frontend requests from local and deployed origins.
+`MAIL_FROM_EMAIL` is optional; if omitted, the backend uses `SMTP_USER` as the sender address.
+For Gmail, use an app password for `SMTP_PASS`; your normal Gmail password will not work.
 
-Do not commit real secrets. If credentials were shared publicly, rotate them in MongoDB Atlas and Gmail.
+Do not commit real secrets. If credentials were shared publicly, rotate them in MongoDB Atlas and your email provider.
 
 ## Run Locally
 
@@ -84,6 +91,7 @@ GET /
 POST /api/auth/register
 POST /api/auth/login
 POST /api/auth/forgot-password
+GET  /api/auth/reset-password/:token
 POST /api/auth/reset-password/:token
 ```
 
