@@ -13,7 +13,7 @@ const getApiBaseUrl = () => {
 const API_BASE_URL = getApiBaseUrl();
 const API = `${API_BASE_URL}/auth`;
 const apiClient = axios.create({
-  timeout: 15000
+  timeout: 30000
 });
 
 const getApiError = (err, fallback) => {
