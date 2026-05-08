@@ -6,7 +6,7 @@ const getApiBaseUrl = () => {
     process.env.REACT_APP_API_URL ||
     (process.env.NODE_ENV === "development"
       ? "http://localhost:5000/api"
-      : "https://fullstack-backend-otg6.onrender.com/api");
+      : "https://fullstack-backend-4-plx3.onrender.com/api");
   return configuredUrl.replace(/\/+$/, "");
 };
 
